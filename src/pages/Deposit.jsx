@@ -86,7 +86,7 @@ export default function Deposit() {
                 Include your <strong>UserID as memo</strong> in the transaction
               </li>
               <li>
-                Minimum deposit is <strong>$10 USDT</strong>
+                Minimum deposit is <strong>$500 USDT</strong>
               </li>
               <li>Submit the transaction hash below after sending</li>
               <li>

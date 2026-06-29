@@ -75,7 +75,7 @@ export default function Withdraw() {
             <p className="font-bold mb-1">Withdrawal Info:</p>
             <ul className="space-y-1 text-blue-200/80 list-disc list-inside">
               <li>
-                Minimum withdrawal is <strong>$10 USDT</strong>
+                Minimum withdrawal is <strong>$5000 USDT</strong>
               </li>
               <li>2% processing fee applies</li>
               <li>

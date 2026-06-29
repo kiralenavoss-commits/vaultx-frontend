@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { useAuth } from '../context/AuthContext';
-import { userAPI } from '../utils/api';
-import { ArrowLeft, Copy, Users, Gift, Share2 } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useAuth } from "../context/AuthContext";
+import { userAPI } from "../utils/api";
+import { ArrowLeft, Copy, Gift, Share2 } from "lucide-react";
 
 export default function Referral() {
   const navigate = useNavigate();
@@ -22,7 +22,7 @@ export default function Referral() {
       const res = await userAPI.getDashboard();
       setDashboard(res.data);
     } catch (error) {
-      toast.error('Failed to load referral data');
+      toast.error("Failed to load referral data");
     } finally {
       setLoading(false);
     }
@@ -30,42 +30,42 @@ export default function Referral() {
 
   const copyLink = () => {
     navigator.clipboard.writeText(referralLink);
-    toast.success('Referral link copied!');
+    toast.success("Referral link copied!");
   };
 
   const copyCode = () => {
     navigator.clipboard.writeText(user?.referralCode);
-    toast.success('Referral code copied!');
+    toast.success("Referral code copied!");
   };
 
   const shareLink = () => {
     if (navigator.share) {
       navigator.share({
-        title: 'Join VaultX - Earn Daily on Crypto',
-        text: 'Join VaultX and get a free $5 bonus! Earn daily returns on USDT.',
-        url: referralLink
+        title: "Join VaultX - Earn Daily on Crypto",
+        text: "Join VaultX and get a free $5 bonus! Earn daily returns on USDT.",
+        url: referralLink,
       });
     } else {
       copyLink();
     }
   };
 
-  if (loading) return (
-    <div className="flex items-center justify-center min-h-screen bg-black">
-      <div className="w-12 h-12 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin"></div>
-    </div>
-  );
+  if (loading)
+    return (
+      <div className="flex items-center justify-center min-h-screen bg-black">
+        <div className="w-12 h-12 border-4 border-yellow-400 border-t-transparent rounded-full animate-spin"></div>
+      </div>
+    );
 
   const currentUser = dashboard?.user || user;
 
   return (
     <div className="min-h-screen bg-black text-white px-4 py-6">
       <div className="max-w-xl mx-auto">
-
         {/* Header */}
         <div className="flex items-center gap-3 mb-6">
           <button
-            onClick={() => navigate('/dashboard')}
+            onClick={() => navigate("/dashboard")}
             className="text-gray-400 hover:text-yellow-400 transition"
           >
             <ArrowLeft size={20} />
@@ -89,8 +89,11 @@ export default function Referral() {
           </div>
           <div className="bg-gray-950 border border-gray-800 rounded-xl p-4 text-center">
             <p className="text-2xl font-black text-green-400">
-              ${((currentUser?.referralLevel1?.length || 0) * 2 +
-                (currentUser?.referralLevel2?.length || 0) * 1).toFixed(0)}
+              $
+              {(
+                (currentUser?.referralLevel1?.length || 0) * 2 +
+                (currentUser?.referralLevel2?.length || 0) * 1
+              ).toFixed(0)}
             </p>
             <p className="text-gray-500 text-xs">Earned</p>
           </div>
@@ -104,24 +107,40 @@ export default function Referral() {
           </h2>
           <div className="space-y-3">
             <div className="flex items-start gap-3">
-              <div className="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center shrink-0 text-black font-black text-sm">1</div>
+              <div className="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center shrink-0 text-black font-black text-sm">
+                1
+              </div>
               <div>
-                <p className="font-semibold text-sm">Share your referral link</p>
-                <p className="text-gray-500 text-xs">Send your unique link to friends and family</p>
+                <p className="font-semibold text-sm">
+                  Share your referral link
+                </p>
+                <p className="text-gray-500 text-xs">
+                  Send your unique link to friends and family
+                </p>
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <div className="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center shrink-0 text-black font-black text-sm">2</div>
+              <div className="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center shrink-0 text-black font-black text-sm">
+                2
+              </div>
               <div>
                 <p className="font-semibold text-sm">They join VaultX</p>
-                <p className="text-gray-500 text-xs">Your friend signs up using your link and gets $5 free</p>
+                <p className="text-gray-500 text-xs">
+                  Your friend signs up using your link and gets $5 free
+                </p>
               </div>
             </div>
             <div className="flex items-start gap-3">
-              <div className="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center shrink-0 text-black font-black text-sm">3</div>
+              <div className="w-8 h-8 bg-yellow-400 rounded-full flex items-center justify-center shrink-0 text-black font-black text-sm">
+                3
+              </div>
               <div>
-                <p className="font-semibold text-sm">You earn referral bonuses</p>
-                <p className="text-gray-500 text-xs">$2 per Level 1 referral • $1 per Level 2 referral</p>
+                <p className="font-semibold text-sm">
+                  You earn referral bonuses
+                </p>
+                <p className="text-gray-500 text-xs">
+                  $2 per Level 1 referral • $1 per Level 2 referral
+                </p>
               </div>
             </div>
           </div>
@@ -131,13 +150,21 @@ export default function Referral() {
         <div className="grid grid-cols-2 gap-4 mb-6">
           <div className="bg-yellow-400/10 border border-yellow-400/30 rounded-xl p-4 text-center">
             <p className="text-3xl font-black text-yellow-400">10%</p>
-            <p className="text-gray-300 font-semibold text-sm">Level 1 Commission</p>
-            <p className="text-gray-500 text-xs mt-1">On their daily earnings</p>
+            <p className="text-gray-300 font-semibold text-sm">
+              Level 1 Commission
+            </p>
+            <p className="text-gray-500 text-xs mt-1">
+              On their daily earnings
+            </p>
           </div>
           <div className="bg-gray-950 border border-gray-800 rounded-xl p-4 text-center">
             <p className="text-3xl font-black text-yellow-400">5%</p>
-            <p className="text-gray-300 font-semibold text-sm">Level 2 Commission</p>
-            <p className="text-gray-500 text-xs mt-1">On their referrals' earnings</p>
+            <p className="text-gray-300 font-semibold text-sm">
+              Level 2 Commission
+            </p>
+            <p className="text-gray-500 text-xs mt-1">
+              On their referrals' earnings
+            </p>
           </div>
         </div>
 
@@ -158,7 +185,9 @@ export default function Referral() {
 
           <p className="text-gray-400 text-sm mb-2">Your Referral Link</p>
           <div className="flex items-center justify-between bg-black rounded-xl p-3 border border-gray-700 mb-4">
-            <p className="text-gray-300 text-xs truncate mr-2">{referralLink}</p>
+            <p className="text-gray-300 text-xs truncate mr-2">
+              {referralLink}
+            </p>
             <button
               onClick={copyLink}
               className="shrink-0 p-2 bg-yellow-400/10 border border-yellow-400/30 rounded-lg hover:bg-yellow-400/20 transition"
@@ -179,10 +208,10 @@ export default function Referral() {
         {/* Referral tip */}
         <div className="bg-green-500/10 border border-green-500/30 rounded-xl p-4">
           <p className="text-green-400 text-sm font-semibold">
-            💡 Pro Tip: Share on WhatsApp, Telegram, and social media for maximum referrals!
+            💡 Pro Tip: Share on WhatsApp, Telegram, and social media for
+            maximum referrals!
           </p>
         </div>
-
       </div>
     </div>
   );

@@ -7,7 +7,6 @@ import {
   TrendingUp,
   Wallet,
   Users,
-  Gift,
   LogOut,
   RotateCcw,
   Star,
@@ -50,6 +49,7 @@ export default function Dashboard() {
 
   useEffect(() => {
     fetchDashboard();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchDashboard = async () => {

@@ -526,8 +526,7 @@ export default function Dashboard() {
                 Bonus Tasks
               </h3>
               <p className="text-gray-400 text-sm mb-6">
-                Complete tasks to earn extra rewards! Each task has a 24hr
-                cooldown.
+                Complete each task once to earn bonus rewards!
               </p>
               <div className="space-y-3">
                 {tasks.map((task) => {
@@ -537,13 +536,17 @@ export default function Dashboard() {
                   return (
                     <div
                       key={task.id}
-                      className={`flex justify-between items-center p-4 rounded-xl border ${completed ? "border-green-500/30 bg-green-500/5" : "border-gray-800 bg-black"}`}
+                      className={`flex justify-between items-center p-4 rounded-xl border ${
+                        completed
+                          ? "border-green-500/30 bg-green-500/5 opacity-60"
+                          : "border-gray-800 bg-black"
+                      }`}
                     >
                       <div className="flex items-center gap-3">
                         <span className="text-2xl">{task.icon}</span>
                         <div>
                           <p
-                            className={`font-semibold text-sm ${completed ? "text-gray-500 line-through" : "text-white"}`}
+                            className={`font-semibold text-sm ${completed ? "line-through text-gray-500" : "text-white"}`}
                           >
                             {task.title}
                           </p>
@@ -553,18 +556,17 @@ export default function Dashboard() {
                         </div>
                       </div>
                       {completed ? (
-                        <span className="text-green-400 font-bold text-sm">
-                          ✓ Done
+                        <span className="text-green-400 font-bold text-sm px-3 py-1 bg-green-400/10 rounded-lg">
+                          ✓ Claimed
                         </span>
                       ) : (
                         <button
                           onClick={async () => {
                             try {
-                              await userAPI.completeTask({
+                              const res = await userAPI.completeTask({
                                 taskId: task.id,
-                                reward: task.reward,
                               });
-                              toast.success(`Task completed! +$${task.reward}`);
+                              toast.success(`✅ ${res.data.message}`);
                               fetchDashboard();
                             } catch (error) {
                               toast.error(

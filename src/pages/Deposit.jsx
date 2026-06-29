@@ -8,11 +8,11 @@ import { useAuth } from "../context/AuthContext";
 const WALLET_ADDRESS = "TXCztGSFGn5YSopPHmf5HoY718fzHLfjej";
 
 const plans = [
-  { name: "Basic", rate: "1.5%", min: 50, color: "border-gray-500" },
-  { name: "Silver", rate: "2.5%", min: 1000, color: "border-gray-400" },
-  { name: "Gold", rate: "4%", min: 5000, color: "border-yellow-400" },
-  { name: "Diamond", rate: "6%", min: 10000, color: "border-blue-400" },
-  { name: "Elite", rate: "8%", min: 50000, color: "border-purple-400" },
+  { name: "Basic", rate: "1.5%", min: 500, color: "border-gray-500" },
+  { name: "Silver", rate: "2.5%", min: 5000, color: "border-gray-400" },
+  { name: "Gold", rate: "4%", min: 10000, color: "border-yellow-400" },
+  { name: "Diamond", rate: "6%", min: 50000, color: "border-blue-400" },
+  { name: "Elite", rate: "8%", min: 100000, color: "border-purple-400" },
 ];
 
 export default function Deposit() {
@@ -39,8 +39,8 @@ export default function Deposit() {
       toast.error("Please fill in amount and transaction hash");
       return;
     }
-    if (formData.amount < 10) {
-      toast.error("Minimum deposit is $10");
+    if (formData.amount < 500) {
+      toast.error("Minimum deposit is $500");
       return;
     }
     setLoading(true);

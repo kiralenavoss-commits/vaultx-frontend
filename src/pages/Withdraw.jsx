@@ -1,43 +1,45 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import { userAPI } from '../utils/api';
-import { ArrowLeft, AlertCircle, Wallet } from 'lucide-react';
-import { useAuth } from '../context/AuthContext';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { userAPI } from "../utils/api";
+import { ArrowLeft, AlertCircle, Wallet } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
 
 export default function Withdraw() {
   const navigate = useNavigate();
   const { user } = useAuth();
   const [formData, setFormData] = useState({
-    amount: '',
-    walletAddress: ''
+    amount: "",
+    walletAddress: "",
   });
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.amount || !formData.walletAddress) {
-      toast.error('Please fill in all fields');
+      toast.error("Please fill in all fields");
       return;
     }
-    if (formData.amount < 10) {
-      toast.error('Minimum withdrawal is $10');
+    if (formData.amount < 5000) {
+      toast.error("Minimum withdrawal is $5000");
       return;
     }
     if (formData.amount > user?.balance) {
-      toast.error('Insufficient balance');
+      toast.error("Insufficient balance");
       return;
     }
     setLoading(true);
     try {
       await userAPI.withdraw({
         amount: parseFloat(formData.amount),
-        walletAddress: formData.walletAddress
+        walletAddress: formData.walletAddress,
       });
-      toast.success('Withdrawal request submitted! Processing within 24 hours.');
-      navigate('/dashboard');
+      toast.success(
+        "Withdrawal request submitted! Processing within 24 hours.",
+      );
+      navigate("/dashboard");
     } catch (error) {
-      toast.error(error.response?.data?.message || 'Withdrawal failed');
+      toast.error(error.response?.data?.message || "Withdrawal failed");
     } finally {
       setLoading(false);
     }
@@ -46,11 +48,10 @@ export default function Withdraw() {
   return (
     <div className="min-h-screen bg-black text-white px-4 py-6">
       <div className="max-w-xl mx-auto">
-
         {/* Header */}
         <div className="flex items-center gap-3 mb-6">
           <button
-            onClick={() => navigate('/dashboard')}
+            onClick={() => navigate("/dashboard")}
             className="text-gray-400 hover:text-yellow-400 transition"
           >
             <ArrowLeft size={20} />
@@ -73,10 +74,16 @@ export default function Withdraw() {
           <div className="text-sm text-blue-200">
             <p className="font-bold mb-1">Withdrawal Info:</p>
             <ul className="space-y-1 text-blue-200/80 list-disc list-inside">
-              <li>Minimum withdrawal is <strong>$10 USDT</strong></li>
+              <li>
+                Minimum withdrawal is <strong>$10 USDT</strong>
+              </li>
               <li>2% processing fee applies</li>
-              <li>Processed within <strong>24 hours</strong></li>
-              <li>Sent directly to your <strong>USDT TRC20</strong> wallet</li>
+              <li>
+                Processed within <strong>24 hours</strong>
+              </li>
+              <li>
+                Sent directly to your <strong>USDT TRC20</strong> wallet
+              </li>
             </ul>
           </div>
         </div>
@@ -88,7 +95,6 @@ export default function Withdraw() {
             Withdrawal Request
           </h2>
           <form onSubmit={handleSubmit} className="space-y-4">
-
             {/* Amount */}
             <div>
               <label className="block text-sm font-semibold text-gray-300 mb-2">
@@ -97,7 +103,9 @@ export default function Withdraw() {
               <input
                 type="number"
                 value={formData.amount}
-                onChange={(e) => setFormData({ ...formData, amount: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, amount: e.target.value })
+                }
                 placeholder="Enter amount e.g. 50"
                 min="10"
                 max={user?.balance}
@@ -105,14 +113,15 @@ export default function Withdraw() {
               />
               {formData.amount >= 10 && (
                 <p className="text-gray-500 text-xs mt-1">
-                  You receive: ${(formData.amount * 0.98).toFixed(2)} after 2% fee
+                  You receive: ${(formData.amount * 0.98).toFixed(2)} after 2%
+                  fee
                 </p>
               )}
             </div>
 
             {/* Quick Amount Buttons */}
             <div className="flex gap-2 flex-wrap">
-              {[10, 50, 100, 500].map(amt => (
+              {[5000, 10000, 50000, 100000].map((amt) => (
                 <button
                   key={amt}
                   type="button"
@@ -124,7 +133,12 @@ export default function Withdraw() {
               ))}
               <button
                 type="button"
-                onClick={() => setFormData({ ...formData, amount: Math.floor(user?.balance || 0) })}
+                onClick={() =>
+                  setFormData({
+                    ...formData,
+                    amount: Math.floor(user?.balance || 0),
+                  })
+                }
                 className="px-3 py-1 bg-gray-800 text-gray-300 text-xs font-semibold rounded-lg hover:bg-yellow-400/20 hover:text-yellow-400 transition"
               >
                 Max
@@ -134,12 +148,15 @@ export default function Withdraw() {
             {/* Wallet Address */}
             <div>
               <label className="block text-sm font-semibold text-gray-300 mb-2">
-                Your USDT TRC20 Wallet Address <span className="text-yellow-400">*</span>
+                Your USDT TRC20 Wallet Address{" "}
+                <span className="text-yellow-400">*</span>
               </label>
               <input
                 type="text"
                 value={formData.walletAddress}
-                onChange={(e) => setFormData({ ...formData, walletAddress: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, walletAddress: e.target.value })
+                }
                 placeholder="Enter your TRC20 wallet address"
                 className="w-full bg-black border border-gray-700 text-white px-4 py-3 rounded-xl outline-none focus:border-yellow-400 transition placeholder-gray-600"
               />
@@ -157,13 +174,11 @@ export default function Withdraw() {
               {loading ? (
                 <div className="w-5 h-5 border-2 border-black border-t-transparent rounded-full animate-spin"></div>
               ) : (
-                'Submit Withdrawal Request'
+                "Submit Withdrawal Request"
               )}
             </button>
-
           </form>
         </div>
-
       </div>
     </div>
   );
